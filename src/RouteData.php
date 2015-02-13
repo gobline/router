@@ -44,12 +44,12 @@ class RouteData
                 if (!$this->hasParam($args[0])) {
                     throw new \InvalidArgumentException('Route param "'.$args[0].'" not found');
                 }
-                return $this->params[$name];
+                return $this->params[$args[0]];
             case 2:
                 if (!$this->hasParam($args[0])) {
                     return $args[1];
                 }
-                return $this->params[$name];
+                return $this->params[$args[0]];
         }
     }
 
