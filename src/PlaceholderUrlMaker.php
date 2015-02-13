@@ -42,8 +42,8 @@ class PlaceholderUrlMaker implements UrlMakerInterface
 
         $url = '';
 
-        $route = explode('(/', $this->route);
-        $requiredRoutePart = array_shift($route);
+        $explodedRoute = explode('(/', $this->route);
+        $requiredRoutePart = array_shift($explodedRoute);
 
         if ($requiredRoutePart) {
             $url .= str_replace(array_keys($placeholders), array_values($placeholders), $requiredRoutePart);
@@ -52,12 +52,13 @@ class PlaceholderUrlMaker implements UrlMakerInterface
                 throw new \RuntimeException('Parameters are missing');
             }
 
-            if (!$route) {
+            if (!$explodedRoute) {
                 return str_replace('+', '', $url);
             }
         }
+        $optionalRouteParts = array_map(function ($value) { return rtrim($value, ')'); }, $explodedRoute);
+        $optionalRouteParts = array_filter($optionalRouteParts, function ($v) { return $v !== ''; });
 
-        $optionalRouteParts = array_map(function ($value) { return rtrim($value, ')'); }, $route);
 
         $defaults = [];
 
@@ -68,10 +69,6 @@ class PlaceholderUrlMaker implements UrlMakerInterface
         $tmpUrl = '';
 
         foreach ($optionalRouteParts as $routePart) {
-            if (empty($routePart)) {
-                continue;
-            }
-
             $urlPart = str_replace(array_keys($placeholders), array_values($placeholders), $routePart);
             $replaced = ($urlPart !== $routePart);
 

@@ -21,14 +21,22 @@ class UrlMaker implements UrlMakerInterface
     private $routers;
     private $httpRequest;
 
-    public function __construct(RouterCollection $routers, HttpRequestInterface $httpRequest)
+    public function __construct(RouterCollection $routers)
     {
         $this->routers = $routers;
+    }
+
+    public function setContext(HttpRequestInterface $httpRequest)
+    {
         $this->httpRequest = $httpRequest;
     }
 
     public function makeUrl(RouteData $routeData, $language = null)
     {
+        if (!$this->httpRequest) {
+            return $this->routers->get($routeData->getRouteName())->makeUrl($routeData, $language);
+        }
+
         if (!$language) {
             $language = $this->httpRequest->getLanguage();
         }
