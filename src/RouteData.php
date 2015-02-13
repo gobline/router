@@ -61,4 +61,13 @@ class RouteData
 
         return isset($this->params[$name]);
     }
+
+    public function setParam($name, $value)
+    {
+        if ((string) $name === '') {
+            throw new \InvalidArgumentException('$name cannot be empty');
+        }
+
+        $this->params[$name] = $value;
+    }
 }
