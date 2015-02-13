@@ -32,40 +32,4 @@ abstract class AbstractRouter implements RouterInterface
     {
         return $this->name;
     }
-
-    protected function makeKeyValuePairs(array $array)
-    {
-        $pairs = [];
-        $nb = count($array);
-        $i = 0;
-        for (; $i < $nb - 1; $i += 2) {
-            $pairs[$array[$i]] = $array[$i+1];
-        }
-        if ($i < $nb) {
-            $pairs[$array[$i]] = '';
-        }
-
-        return $pairs;
-    }
-
-    protected function encodeParam($param)
-    {
-        return rawurlencode(str_replace('/', '%%', (string) $param));
-    }
-
-    protected function decodeParam($param)
-    {
-        return str_replace('%%', '/', rawurldecode($param));
-    }
-
-    protected function getSegments($path)
-    {
-        $path = trim($path, '/');
-
-        if ($path === '') {
-            return [];
-        }
-
-        return explode('/', $path);
-    }
 }
