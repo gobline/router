@@ -62,6 +62,11 @@ class RouteData
         return isset($this->params[$name]);
     }
 
+    public function setParams($params)
+    {
+        $this->params = $params;
+    }
+
     public function setParam($name, $value)
     {
         if ((string) $name === '') {
