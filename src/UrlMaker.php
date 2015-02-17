@@ -26,7 +26,7 @@ class UrlMaker implements UrlMakerInterface
         $this->routers = $routers;
     }
 
-    public function setContext(HttpRequestInterface $httpRequest)
+    public function setContext(HttpRequestInterface $httpRequest = null)
     {
         $this->httpRequest = $httpRequest;
     }
