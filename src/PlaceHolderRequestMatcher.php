@@ -16,7 +16,7 @@ use Mendo\Http\Request\HttpRequestInterface;
 /**
  * @author Mathieu Decaffmeyer <mdecaffmeyer@gmail.com>
  */
-class PlaceHolderRequestMatcher implements RequestMatcherInterface
+class PlaceholderRequestMatcher implements RequestMatcherInterface
 {
     private $route;
     private $constraints;
