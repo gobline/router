@@ -31,6 +31,11 @@ class UrlMaker implements UrlMakerInterface
         $this->httpRequest = $httpRequest;
     }
 
+    public function getContext()
+    {
+        return $this->httpRequest;
+    }
+
     public function makeUrl(RouteData $routeData, $language = null)
     {
         if (!$this->httpRequest) {
