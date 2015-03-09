@@ -36,10 +36,10 @@ class PlaceholderRouter extends AbstractPlaceholderRouter
         return new RouteData($this->name, $params + $this->defaults);
     }
 
-    public function makeUrl(RouteData $routeData, $language = null)
+    public function makeUrl(RouteData $routeData, $language = null, $absolute = false)
     {
         $urlMaker = new PlaceholderUrlMaker($this->route, $this->defaults);
 
-        return $urlMaker->makeUrl($routeData, $language);
+        return $urlMaker->makeUrl($routeData, $language, $absolute);
     }
 }

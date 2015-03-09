@@ -36,28 +36,25 @@ class UrlMaker implements UrlMakerInterface
         return $this->httpRequest;
     }
 
-    public function makeUrl(RouteData $routeData, $language = null)
+    public function makeUrl(RouteData $routeData, $language = null, $absolute = false)
     {
         if (!$this->httpRequest) {
-            return $this->routers->get($routeData->getRouteName())->makeUrl($routeData, $language);
+            return $this->routers->get($routeData->getRouteName())->makeUrl($routeData, $language, $absolute);
         }
 
         if (!$language) {
             $language = $this->httpRequest->getLanguage();
         }
 
-        $path = $this->routers->get($routeData->getRouteName())->makeUrl($routeData, $language);
+        $path = $this->routers->get($routeData->getRouteName())->makeUrl($routeData, $language, $absolute);
 
         $httpRequest = clone $this->httpRequest;
         $httpRequest->setPath($path);
 
-        $makeAbsoluteUrl = false;
-
         if ($language) {
-            $makeAbsoluteUrl = ($httpRequest->getLanguage() !== $language);
             $httpRequest->setLanguage($language);
         }
 
-        return $httpRequest->getUrl($makeAbsoluteUrl);
+        return $httpRequest->getUrl($absolute);
     }
 }

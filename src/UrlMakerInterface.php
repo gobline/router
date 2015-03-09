@@ -16,5 +16,5 @@ namespace Mendo\Router;
  */
 interface UrlMakerInterface
 {
-    public function makeUrl(RouteData $routeData, $language = null);
+    public function makeUrl(RouteData $routeData, $language = null, $absolute = false);
 }

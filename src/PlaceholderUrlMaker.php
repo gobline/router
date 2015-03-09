@@ -29,7 +29,7 @@ class PlaceholderUrlMaker implements UrlMakerInterface
         $this->defaults = $defaults;
     }
 
-    public function makeUrl(RouteData $routeData, $language = null)
+    public function makeUrl(RouteData $routeData, $language = null, $absolute = false)
     {
         $placeholders = [];
 

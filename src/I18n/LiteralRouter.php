@@ -39,7 +39,7 @@ class LiteralRouter extends AbstractLiteralRouter
         return new RouteData($this->name, $this->params);
     }
 
-    public function makeUrl(RouteData $routeData, $language = null)
+    public function makeUrl(RouteData $routeData, $language = null, $absolute = false)
     {
         $canTranslate = ($this->translator && $language && $this->translator->hasTranslations($language));
 
