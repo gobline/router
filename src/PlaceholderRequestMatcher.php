@@ -55,12 +55,14 @@ class PlaceholderRequestMatcher implements RequestMatcherInterface
 
         $params = [];
 
-        foreach ($this->paramNames as $name) {
-            if (isset($paramValues[$name])) {
-                if (isset($this->paramNamesPath[$name])) {
-                    $params[$name] = explode('/', urldecode($paramValues[$name]));
-                } else {
-                    $params[$name] = urldecode($paramValues[$name]);
+        if ($this->paramNames) {
+            foreach ($this->paramNames as $name) {
+                if (isset($paramValues[$name])) {
+                    if (isset($this->paramNamesPath[$name])) {
+                        $params[$name] = explode('/', urldecode($paramValues[$name]));
+                    } else {
+                        $params[$name] = urldecode($paramValues[$name]);
+                    }
                 }
             }
         }
