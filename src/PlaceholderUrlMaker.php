@@ -78,7 +78,7 @@ class PlaceholderUrlMaker implements UrlMakerInterface
 
             if (strpos($urlPart, ':') !== false) {
                 if ($replaced) {
-                    throw new \RuntimeException('Parameters are missing');
+                    throw new \RuntimeException('Parameters are missing ('.$urlPart.')');
                 }
                 break;
             }
