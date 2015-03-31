@@ -52,7 +52,7 @@ class PlaceholderRouter extends AbstractPlaceholderRouter
         }
 
         if ($canTranslate) {
-            $translations = array_flip($this->translator->getTranslations($language));
+            $translations = $this->translator->getTranslations($language);
             foreach ($params as $name => &$value) {
                 if (!in_array($name, $this->placeholdersToTranslate)) {
                     continue;
@@ -60,10 +60,10 @@ class PlaceholderRouter extends AbstractPlaceholderRouter
 
                 if (is_array($value)) {
                     foreach ($value as &$v) {
-                        $v = isset($translations[$v]) ? $translations[$v] : $v;
+                        $v = array_search($v, $translations) ?: $v;
                     }
                 } else {
-                    $value = isset($translations[$value]) ? $translations[$value] : $value;
+                    $value = array_search($value, $translations) ?: $value;
                 }
             }
         }
