@@ -50,6 +50,7 @@ class UrlMaker implements UrlMakerInterface
 
         $httpRequest = clone $this->httpRequest;
         $httpRequest->setPath($path);
+        $httpRequest->setQueryData([]);
 
         if ($language) {
             $httpRequest->setLanguage($language);
