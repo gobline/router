@@ -11,12 +11,10 @@
 
 namespace Gobline\Router;
 
-use Psr\Http\Message\ServerRequestInterface;
-
 /**
  * @author Mathieu Decaffmeyer <mdecaffmeyer@gmail.com>
  */
-interface RequestMatcherInterface
+interface UriBuilderInterface
 {
-    public function match(ServerRequestInterface $request);
+    public function buildUri(RouteData $routeData, $language = null);
 }

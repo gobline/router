@@ -1,44 +1,39 @@
 <?php
 
-use Mendo\Http\Request\StringHttpRequest;
-use Mendo\Router\RequestMatcher;
-use Mendo\Router\RouterCollection;
-use Mendo\Router\PlaceholderRouter;
+use Zend\Diactoros\ServerRequest;
+use Gobline\Router\RequestMatcher;
+use Gobline\Router\RouteCollection;
+use Gobline\Router\PlaceholderRoute;
 
 class RequestMatcherTest extends PHPUnit_Framework_TestCase
 {
     public function testRequestMatcher()
     {
-        $routerCollection = new RouterCollection();
+        $routeCollection = new RouteCollection();
 
-        $routerCollection
-            ->add(new PlaceholderRouter(
-                'profileUsername',
-                '/profile/:username',
-                [],
-                [
+        $routeCollection
+            ->get((new PlaceholderRoute('profileUsername', '/profile/:username'))
+                ->constraints([
                     'username' => '[a-zA-Z]+',
-                ]
-            ))
-            ->add(new PlaceholderRouter(
-                'profileUserId',
-                '/profile/:id',
-                [],
-                [
+                ])
+            )
+            ->addRoute((new PlaceholderRoute('profileUserId', '/profile/:id'))
+                ->constraints([
                     'id' => '[0-9]+',
-                ]
-            ));
+                ])
+                ->allows(['GET', 'POST'])
+            );
 
-        $requestMatcher = new RequestMatcher($routerCollection);
+        $requestMatcher = new RequestMatcher($routeCollection);
 
-        $routeData = $requestMatcher->match(new StringHttpRequest('http://example.com/profile/42'));
+        $routeData = $requestMatcher->match(new ServerRequest([], [], 'http://example.com/profile/42', 'POST'));
 
-        $this->assertInstanceOf('Mendo\Router\RouteData', $routeData);
-        $this->assertSame('profileUserId', $routeData->getRouteName());
+        $this->assertInstanceOf('Gobline\Router\RouteData', $routeData);
+        $this->assertSame('profileUserId', $routeData->getName());
 
-        $routeData = $requestMatcher->match(new StringHttpRequest('http://example.com/profile/foobar'));
+        $routeData = $requestMatcher->match(new ServerRequest([], [], 'http://example.com/profile/foobar', 'GET'));
 
-        $this->assertInstanceOf('Mendo\Router\RouteData', $routeData);
-        $this->assertSame('profileUsername', $routeData->getRouteName());
+        $this->assertInstanceOf('Gobline\Router\RouteData', $routeData);
+        $this->assertSame('profileUsername', $routeData->getName());
     }
 }

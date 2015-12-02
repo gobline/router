@@ -1,120 +1,108 @@
-# Router Component - Mendo Framework
+# PSR-7 Router component
 
-The purpose of routing is to **map a URL to an array of data** allowing to **route the request to the correct resource**.
+The purpose of routing is to **map a URL to an array of data or to a callback**, allowing to **route the request to the correct resource**.
 In an MVC context, this is typically a controller and a controller action.
 
 There are two routers bundled by default:
 
-* `Mendo\Router\LiteralRouter` (with its i18n friend `Mendo\Router\I18n\LiteralRouter`)
-* `Mendo\Router\PlaceHolderRouter` (with its i18n friend `Mendo\Router\I18n\PlaceHolderRouter`)
+* `Gobline\Router\LiteralRoute` (with its i18n friend `Gobline\Router\I18n\LiteralRoute`)
+* `Gobline\Router\PlaceHolderRoute` (with its i18n friend `Gobline\Router\I18n\PlaceHolderRoute`)
 
-The Mendo Router component allows to have your **URLs translated in multiple languages**, allowing to have more SEO- and user-friendly URLs.
-This is acheived by injecting a ```Mendo\Translator\TranslatorInterface``` instance into an i18n router.
-When matching for a route, the language is retrieved from the ```Mendo\Http\HttpRequestInterface``` instance (see below).
+The Router component allows to have your **URLs translated in multiple languages**, allowing to have more SEO- and user-friendly URLs.
 
-## LiteralRouter
+## LiteralRoute
 
 The Literal route is for doing exact matching of the URI path.
 
 ```php
-$router = new Mendo\Router\LiteralRouter(
-    'profile', // route name
-    'user/profile', // route to match
-    [
+$router = (new Gobline\Router\LiteralRoute('profile', '/user/profile')) // profile is the route name and /user/profile is the route to match
+    ->values([
         'controller' => 'user',
         'action' => 'profile',
-    ]
-);
+    ]);
 ```
 
-## I18n LiteralRouter
+## I18n LiteralRoute
 
 ```php
-$router = new Mendo\Router\LiteralRouter(
-    'profile', // route name
-    'user/profile', // route to match
-    [
+$router = (new Gobline\Router\LiteralRoute('profile', '/user/profile'))
+    ->values([
         'controller' => 'user',
         'action' => 'profile',
-    ]
-);
-
-$translator = new Mendo\Translator\Translator();
-$translator->addTranslationArray([
-    '/user/profile' => '/membre/profil',
-], 'fr');
-$router->setTranslator($translator);
+    ])
+    ->i18n([
+        'fr' => '/membre/profil',
+        'nl' => '/gebruiker/profiel',
+    ]);
 ```
 
 ## PlaceHolderRouter
 
 ```php
-$router = new Mendo\Router\PlaceHolderRouter(
-    'profile',
-    '/user/:id(/)(/articles/:action(/))',
-    [
+$router = (new Gobline\Router\PlaceHolderRoute('profile', '/user/:id(/)(/articles/:action(/))'))
+    ->values([
+        'controller' => 'articles',
         'action' => 'list',
-    ],
-    [
+    ])
+    ->constraints([
         'id' => '[0-9]+',
         'action' => '[a-zA-Z]+',
-    ]
-);
+    ]);
 ```
 
 ## I18n PlaceHolderRouter
 
 ```php
-$router = new Mendo\Router\PlaceHolderRouter(
-    'profile',
-    '/user/:id(/)(/articles/:action(/))',
-    [
+$router = (new Gobline\Router\PlaceHolderRoute('profile', '/user/:id(/)(/articles/:action(/))'))
+    ->values([
+        'controller' => 'articles',
         'action' => 'list',
-    ],
-    [
+    ])
+    ->constraints([
         'id' => '[0-9]+',
         'action' => '[a-zA-Z]+',
-    ],
-    ['action'] // parameter value to translate
-);
-
-$translator = new Mendo\Translator\Translator();
-$translator->addTranslationArray([
-    '/user/:id(/)(/articles/:action(/))' => '/membre/:id(/)(/articles/:action(/))',
-    'list' => 'liste',
-    // ...
-], 'fr');
-$router->setTranslator($translator);
+    ])
+    ->i18n([
+        'fr' => '/membre/:id(/)(/articles/:action(/))',
+        'nl' => '/gebruiker/:id(/)(/artikelen/:action(/))',
+        'placeholders' => [
+            'action' => [
+                'fr' => [
+                    'list' => 'liste',
+                ],
+                'nl' => [
+                    'list' => 'lijst',
+                ],
+            ],
+        ],
+    ]);
 ```
 
 ## Matching a URL to a Collection of Routes
 
 ```php
-$routerCollection = new Mendo\Router\RouterCollection();
-$routerCollection
-    ->add(new Mendo\Router\LiteralRouter(/*...*/))
-    ->add(new Mendo\Router\LiteralRouter(/*...*/))
-    ->add(new Mendo\Router\PlaceHolderRouter(/*...*/))
-    ->add(new Mendo\Router\PlaceHolderRouter(/*...*/))
-    ->add(new Mendo\Router\PlaceHolderRouter(/*...*/));
+$routeCollection = new Gobline\Router\RouteCollection();
+$routeCollection
+    ->get(new Gobline\Router\LiteralRoute(/*...*/))
+    ->post(new Gobline\Router\PlaceHolderRouter(/*...*/));
 
-$requestMatcher = new Mendo\Router\RequestMatcher($routerCollection);
-$routeData = $requestMatcher->match($httpRequest); // see mendo/http component
+$requestMatcher = new Gobline\Router\RequestMatcher($routeCollection);
+$routeData = $requestMatcher->match($request); // psr-7 server request
 ```
 
 ## Generating a URL Based on Route Data
 
 ```php
-$urlMaker = new Mendo\Router\UrlMaker($routerCollection, $httpRequest); // see mendo/http component
+$uriBuilder = new Gobline\Router\UriBuilder($routerCollection);
 
-$url = $urlMaker->makeUrl(new Mendo\Router\RouteData('profile', ['id' => 42]));
+$url = $uriBuilder->makeUrl(new Gobline\Router\RouteData('profile', ['id' => 42]));
 ```
 
 ## Installation
 
-You can install Mendo Router using the dependency management tool [Composer](https://getcomposer.org/).
+You can install the Router component using the dependency management tool [Composer](https://getcomposer.org/).
 Run the *require* command to resolve and download the dependencies:
 
 ```
-composer require mendoframework/router
+composer require gobline/router
 ```

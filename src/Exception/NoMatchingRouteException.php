@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Mendo Framework
+ * Gobline Framework
  *
  * (c) Mathieu Decaffmeyer <mdecaffmeyer@gmail.com>
  *
@@ -9,14 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Mendo\Router;
-
-use Mendo\Http\Request\HttpRequestInterface;
+namespace Gobline\Router\Exception;
 
 /**
  * @author Mathieu Decaffmeyer <mdecaffmeyer@gmail.com>
  */
-interface RouterInterface extends RequestMatcherInterface, UrlMakerInterface
+class NoMatchingRouteException extends \RuntimeException 
 {
-    public function getName();
 }

@@ -9,14 +9,20 @@
  * file that was distributed with this source code.
  */
 
-namespace Gobline\Router;
+namespace Gobline\Router\Rule;
 
 use Psr\Http\Message\ServerRequestInterface;
+use Gobline\Router\RouteInterface;
 
 /**
  * @author Mathieu Decaffmeyer <mdecaffmeyer@gmail.com>
  */
-interface RequestMatcherInterface
+class Method implements RuleInterface
 {
-    public function match(ServerRequestInterface $request);
+    public function match(ServerRequestInterface $request, RouteInterface $route)
+    {
+        $requestMethod = $request->getMethod() ?: 'GET';
+
+        return $route->isRequestMethodAllowed($requestMethod);
+    }
 }

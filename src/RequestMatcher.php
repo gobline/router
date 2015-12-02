@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Mendo Framework
+ * Gobline Framework
  *
  * (c) Mathieu Decaffmeyer <mdecaffmeyer@gmail.com>
  *
@@ -9,32 +9,41 @@
  * file that was distributed with this source code.
  */
 
-namespace Mendo\Router;
+namespace Gobline\Router;
 
-use Mendo\Http\Request\HttpRequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Gobline\Router\Rule\RuleCollection;
+use Gobline\Router\Exception\NoMatchingRouteException;
 
 /**
  * @author Mathieu Decaffmeyer <mdecaffmeyer@gmail.com>
  */
 class RequestMatcher implements RequestMatcherInterface
 {
-    private $routers;
+    private $routes;
+    private $rules;
 
-    public function __construct(RouterCollection $routers)
+    public function __construct(RouteCollection $routes)
     {
-        $this->routers = $routers;
+        $this->routes = $routes;
+
+        $this->rules = new RuleCollection();
     }
 
-    public function match(HttpRequestInterface $httpRequest)
+    public function match(ServerRequestInterface $request)
     {
-        foreach ($this->routers as $route => $router) {
-            $routeData = $router->match($httpRequest);
+        foreach ($this->routes as $name => $route) {
+            if (!$this->rules->isRequestMatchingRouteRules($request, $route)) {
+                continue;
+            }
+
+            $routeData = $route->match($request);
 
             if ($routeData) {
                 return $routeData;
             }
         }
 
-        throw new \RuntimeException('No matching route for request "'.$httpRequest->getUrl(true).'"');
+        throw new NoMatchingRouteException('No matching route for request "'.$request->getUri()->getPath().'"');
     }
 }

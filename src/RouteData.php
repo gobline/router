@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Mendo Framework
+ * Gobline Framework
  *
  * (c) Mathieu Decaffmeyer <mdecaffmeyer@gmail.com>
  *
@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Mendo\Router;
+namespace Gobline\Router;
 
 /**
  * @author Mathieu Decaffmeyer <mdecaffmeyer@gmail.com>
@@ -18,16 +18,23 @@ class RouteData
 {
     private $routeName;
     private $params;
+    private $handler;
 
-    public function __construct($routeName, array $params = [])
+    public function __construct($routeName, array $params = [], callable $handler = null)
     {
         $this->routeName = $routeName;
         $this->params = $params;
+        $this->handler = $handler;
     }
 
-    public function getRouteName()
+    public function getName()
     {
         return $this->routeName;
+    }
+
+    public function getHandler()
+    {
+        return $this->handler;
     }
 
     public function getParams()

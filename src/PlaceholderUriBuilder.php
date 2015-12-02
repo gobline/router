@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Mendo Framework
+ * Gobline Framework
  *
  * (c) Mathieu Decaffmeyer <mdecaffmeyer@gmail.com>
  *
@@ -9,27 +9,27 @@
  * file that was distributed with this source code.
  */
 
-namespace Mendo\Router;
+namespace Gobline\Router;
 
 /**
  * @author Mathieu Decaffmeyer <mdecaffmeyer@gmail.com>
  */
-class PlaceholderUrlMaker implements UrlMakerInterface
+class PlaceholderUriBuilder implements UriBuilderInterface
 {
-    private $route;
+    private $path;
     private $defaults;
 
-    public function __construct($route, array $defaults = [])
+    public function __construct($path, array $defaults = [])
     {
-        $this->route = (string) $route;
-        if ($this->route === '') {
-            throw new \InvalidArgumentException('$route cannot be empty');
+        $this->path = (string) $path;
+        if ($this->path === '') {
+            throw new \InvalidArgumentException('$path cannot be empty');
         }
 
         $this->defaults = $defaults;
     }
 
-    public function makeUrl(RouteData $routeData, $language = null, $absolute = false)
+    public function buildUri(RouteData $routeData, $language = null)
     {
         $placeholders = [];
 
@@ -42,7 +42,7 @@ class PlaceholderUrlMaker implements UrlMakerInterface
 
         $url = '';
 
-        $explodedRoute = explode('(/', $this->route);
+        $explodedRoute = explode('(/', $this->path);
         $requiredRoutePart = array_shift($explodedRoute);
 
         if ($requiredRoutePart) {

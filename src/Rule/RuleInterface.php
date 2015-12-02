@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Mendo Framework
+ * Gobline Framework
  *
  * (c) Mathieu Decaffmeyer <mdecaffmeyer@gmail.com>
  *
@@ -9,19 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Mendo\Router\I18n;
+namespace Gobline\Router\Rule;
 
-use Mendo\Translator\TranslatorInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Gobline\Router\RouteInterface;
 
 /**
  * @author Mathieu Decaffmeyer <mdecaffmeyer@gmail.com>
  */
-trait TranslatorAwareTrait
+interface RuleInterface
 {
-    protected $translator;
-
-    public function setTranslator(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
-    }
+    public function match(ServerRequestInterface $request, RouteInterface $route);
 }

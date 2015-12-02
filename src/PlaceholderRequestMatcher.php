@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Mendo Framework
+ * Gobline Framework
  *
  * (c) Mathieu Decaffmeyer <mdecaffmeyer@gmail.com>
  *
@@ -9,47 +9,46 @@
  * file that was distributed with this source code.
  */
 
-namespace Mendo\Router;
+namespace Gobline\Router;
 
-use Mendo\Http\Request\HttpRequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @author Mathieu Decaffmeyer <mdecaffmeyer@gmail.com>
  */
 class PlaceholderRequestMatcher implements RequestMatcherInterface
 {
-    private $route;
+    private $path;
     private $constraints;
     private $paramNames;
     private $paramNamesPath;
 
-    public function __construct($route, array $constraints = [])
+    public function __construct($path, array $constraints = [])
     {
-        $this->route = (string) $route;
-        if ($this->route === '') {
-            throw new \InvalidArgumentException('$route cannot be empty');
+        $this->path = (string) $path;
+        if ($this->path === '') {
+            throw new \InvalidArgumentException('$path cannot be empty');
         }
 
         $this->constraints = $constraints;
     }
 
-    // https://github.com/codeguy/Slim/blob/master/Slim/Route.php
-    public function match(HttpRequestInterface $httpRequest)
+    public function match(ServerRequestInterface $request)
     {
         //Convert URL params into regex patterns, construct a regex for this route, init params
         $patternAsRegex = preg_replace_callback(
             '#:([\w]+)\+?#',
             array($this, 'matchesCallback'),
-            str_replace(')', ')?', (string)$this->route)
+            str_replace(')', ')?', (string)$this->path)
         );
 
-        if (substr($this->route, -1) === '/') {
+        if (substr($this->path, -1) === '/') {
             $patternAsRegex .= '?';
         }
 
         $regex = '#^' . $patternAsRegex . '$#';
         //Cache URL params' names and values if this route matches the current HTTP request
-        if (!preg_match($regex, $httpRequest->getPath(), $paramValues)) {
+        if (!preg_match($regex, $request->getUri()->getPath(), $paramValues)) {
             return false;
         }
 
@@ -70,7 +69,6 @@ class PlaceholderRequestMatcher implements RequestMatcherInterface
         return $params;
     }
 
-    // https://github.com/codeguy/Slim/blob/master/Slim/Route.php
     private function matchesCallback($m)
     {
         $this->paramNames[] = $m[1];
