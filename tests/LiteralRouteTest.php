@@ -7,14 +7,6 @@ use Gobline\Router\AbstractRoute;
 
 class LiteralRouteTest extends PHPUnit_Framework_TestCase
 {
-    public function setup()
-    {
-        AbstractRoute::setApplicationRouteParameters([
-            'controller',
-            'action',
-        ]);
-    }
-
     public function testLiteralRouteMatch()
     {
         $route = (new LiteralRoute('edit-profile', '/profile/edit'))
