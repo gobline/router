@@ -13,7 +13,6 @@ namespace Gobline\Router\Provider\Gobline;
 
 use Gobline\Container\ContainerInterface;
 use Gobline\Container\ServiceConfiguratorInterface;
-use Gobline\Router\RouteCollection;
 
 /**
  * @author Mathieu Decaffmeyer <mdecaffmeyer@gmail.com>

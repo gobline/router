@@ -59,7 +59,6 @@ class PlaceholderUriBuilder implements UriBuilderInterface
         $optionalRouteParts = array_map(function ($value) { return rtrim($value, ')'); }, $explodedRoute);
         $optionalRouteParts = array_filter($optionalRouteParts, function ($v) { return $v !== ''; });
 
-
         $defaults = [];
 
         foreach ($this->defaults as $k => $v) {

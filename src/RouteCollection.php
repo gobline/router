@@ -11,8 +11,8 @@
 
 namespace Gobline\Router;
 
-use \ArrayIterator;
-use \IteratorAggregate;
+use ArrayIterator;
+use IteratorAggregate;
 
 /**
  * @author Mathieu Decaffmeyer <mdecaffmeyer@gmail.com>

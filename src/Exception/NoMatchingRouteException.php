@@ -14,6 +14,6 @@ namespace Gobline\Router\Exception;
 /**
  * @author Mathieu Decaffmeyer <mdecaffmeyer@gmail.com>
  */
-class NoMatchingRouteException extends \RuntimeException 
+class NoMatchingRouteException extends \RuntimeException
 {
 }

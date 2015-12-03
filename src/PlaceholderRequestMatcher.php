@@ -39,14 +39,14 @@ class PlaceholderRequestMatcher implements RequestMatcherInterface
         $patternAsRegex = preg_replace_callback(
             '#:([\w]+)\+?#',
             array($this, 'matchesCallback'),
-            str_replace(')', ')?', (string)$this->path)
+            str_replace(')', ')?', (string) $this->path)
         );
 
         if (substr($this->path, -1) === '/') {
             $patternAsRegex .= '?';
         }
 
-        $regex = '#^' . $patternAsRegex . '$#';
+        $regex = '#^'.$patternAsRegex.'$#';
         //Cache URL params' names and values if this route matches the current HTTP request
         if (!preg_match($regex, $request->getUri()->getPath(), $paramValues)) {
             return false;
@@ -73,12 +73,14 @@ class PlaceholderRequestMatcher implements RequestMatcherInterface
     {
         $this->paramNames[] = $m[1];
         if (isset($this->constraints[$m[1]])) {
-            return '(?P<' . $m[1] . '>' . $this->constraints[$m[1]] . ')';
+            return '(?P<'.$m[1].'>'.$this->constraints[$m[1]].')';
         }
         if (substr($m[0], -1) === '+') {
             $this->paramNamesPath[$m[1]] = 1;
-            return '(?P<' . $m[1] . '>.+)';
+
+            return '(?P<'.$m[1].'>.+)';
         }
-        return '(?P<' . $m[1] . '>[^/]+)';
+
+        return '(?P<'.$m[1].'>[^/]+)';
     }
 }

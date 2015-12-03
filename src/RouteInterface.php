@@ -11,8 +11,6 @@
 
 namespace Gobline\Router;
 
-use Psr\Http\Message\ServerRequestInterface;
-
 /**
  * @author Mathieu Decaffmeyer <mdecaffmeyer@gmail.com>
  */

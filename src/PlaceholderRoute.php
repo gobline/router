@@ -28,7 +28,7 @@ class PlaceholderRoute extends AbstractPlaceholderRoute
             return false;
         }
 
-        return new RouteData($this->name,  array_merge($params + $this->defaults, $this->values), $this->handler);
+        return new RouteData($this->name, array_merge($params + $this->defaults, $this->values), $this->handler);
     }
 
     public function buildUri(RouteData $routeData, $language = null)
