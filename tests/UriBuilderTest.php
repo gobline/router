@@ -12,16 +12,16 @@ class UriBuilderTest extends PHPUnit_Framework_TestCase
         $routeCollection = new RouteCollection();
 
         $routeCollection
-            ->addRoute((new PlaceholderRoute('profileUsername', '/profile/:username'))
-                ->constraints([
-                    'username' => '[a-zA-Z]+',
-                ])
-            )
-            ->addRoute((new PlaceholderRoute('profileUserId', '/profile/:id'))
-                ->constraints([
-                    'id' => '[0-9]+',
-                ])
-            );
+            ->addRoute(new PlaceholderRoute('profileUsername', '/profile/:username'))
+            ->constraints([
+                'username' => '[a-zA-Z]+',
+            ]);
+
+        $routeCollection
+            ->addRoute(new PlaceholderRoute('profileUserId', '/profile/:id'))
+            ->constraints([
+                'id' => '[0-9]+',
+            ]);
 
         $uriBuilder = new UriBuilder($routeCollection);
 

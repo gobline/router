@@ -37,14 +37,14 @@ class RouteCollection implements IteratorAggregate
 
         $this->addRoute($route);
 
-        return $this;
+        return $route;
     }
 
     public function addRoute(RouteInterface $route)
     {
         $this->routes = [$route->getName() => $route] + $this->routes;
 
-        return $this;
+        return $route;
     }
 
     public function hasRoute($name)
