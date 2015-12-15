@@ -32,7 +32,7 @@ class RequestMatcher implements RequestMatcherInterface
 
     public function match(ServerRequestInterface $request)
     {
-        foreach ($this->routes as $name => $route) {
+        foreach ($this->routes as $route) {
             if (!$this->rules->isRequestMatchingRouteRules($request, $route)) {
                 continue;
             }
