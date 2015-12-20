@@ -15,7 +15,8 @@ The Router component allows to have your **URLs translated in multiple languages
 The Literal route is for doing exact matching of the URI path.
 
 ```php
-$router = (new Gobline\Router\LiteralRoute('profile', '/user/profile')) // profile is the route name and /user/profile is the route to match
+$router = (new Gobline\Router\LiteralRoute('/user/profile')) // profile is the route name and /user/profile is the route to match
+    ->setName('profile')
     ->values([
         'controller' => 'user',
         'action' => 'profile',
@@ -25,7 +26,8 @@ $router = (new Gobline\Router\LiteralRoute('profile', '/user/profile')) // profi
 ## I18n LiteralRoute
 
 ```php
-$router = (new Gobline\Router\LiteralRoute('profile', '/user/profile'))
+$router = (new Gobline\Router\LiteralRoute('/user/profile'))
+    ->setName('profile')
     ->values([
         'controller' => 'user',
         'action' => 'profile',
@@ -39,7 +41,8 @@ $router = (new Gobline\Router\LiteralRoute('profile', '/user/profile'))
 ## PlaceHolderRouter
 
 ```php
-$router = (new Gobline\Router\PlaceHolderRoute('profile', '/user/:id(/)(/articles/:action(/))'))
+$router = (new Gobline\Router\PlaceHolderRoute('/user/:id(/)(/articles/:action(/))'))
+    ->setName('profile')
     ->values([
         'controller' => 'articles',
         'action' => 'list',
@@ -53,7 +56,8 @@ $router = (new Gobline\Router\PlaceHolderRoute('profile', '/user/:id(/)(/article
 ## I18n PlaceHolderRouter
 
 ```php
-$router = (new Gobline\Router\PlaceHolderRoute('profile', '/user/:id(/)(/articles/:action(/))'))
+$router = (new Gobline\Router\PlaceHolderRoute('/user/:id(/)(/articles/:action(/))'))
+    ->setName('profile')
     ->values([
         'controller' => 'articles',
         'action' => 'list',
