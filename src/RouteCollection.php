@@ -23,21 +23,19 @@ class RouteCollection implements IteratorAggregate
 
     public function __call($name, array $arguments)
     {
-        if (!$arguments) {
-            throw new \RuntimeException();
-        }
-
         $route = $arguments[0];
 
         if (!$route instanceof RouteInterface) {
-            throw new \RuntimeException('route must be instance of RouteInterface');
+            if (strpos($route, ':') !== false) {
+                $route = new PlaceholderRoute(...$arguments);
+            } else {
+                $route = new LiteralRoute(...$arguments);
+            }
         }
 
         $route->allows([strtoupper($name)]);
 
-        $this->addRoute($route);
-
-        return $route;
+        return $this->addRoute($route);
     }
 
     public function addRoute(RouteInterface $route)
