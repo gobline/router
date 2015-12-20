@@ -8,7 +8,8 @@ class PlaceholderRouteTest extends PHPUnit_Framework_TestCase
 {
     public function testPlaceholderRouteMatch()
     {
-        $route = (new PlaceholderRoute('foobar', '/foo/:bar(/)(/corge/:qux(/)(/:fred/:waldo+(/)))'))
+        $route = (new PlaceholderRoute('/foo/:bar(/)(/corge/:qux(/)(/:fred/:waldo+(/)))'))
+            ->setName('foobar')
             ->defaults([
                 'bar' => 'apple',
                 'qux' => 'pear',
@@ -46,7 +47,8 @@ class PlaceholderRouteTest extends PHPUnit_Framework_TestCase
         $this->assertSame(['bar' => 'banana', 'qux' => 'orange', 'fred' => 'strawberry', 'waldo' => ['raspberry', 'peach']], $routeData->getParams());
         $this->assertSame('/foo/banana/corge/orange/strawberry/raspberry/peach', $route->buildUri(new RouteData($route->getName(), ['bar' => 'banana', 'qux' => 'orange', 'fred' => 'strawberry', 'waldo' => ['raspberry', 'peach']])));
 
-        $route = new PlaceholderRoute('foobar', '(/)(/foo/:bar(/))');
+        $route = new PlaceholderRoute('(/)(/foo/:bar(/))');
+        $route->setName('foobar');
 
         $routeData = $route->match(new ServerRequest([], [], 'http://example.com', 'GET'));
         $this->assertInstanceOf('Gobline\Router\RouteData', $routeData);
@@ -66,7 +68,8 @@ class PlaceholderRouteTest extends PHPUnit_Framework_TestCase
 
     public function testPlaceholderRouteMatchI18n()
     {
-        $route = (new PlaceholderRoute('foobar', '/foo/:bar(/)(/corge/:qux(/)(/:fred/:waldo+(/)))'))
+        $route = (new PlaceholderRoute('/foo/:bar(/)(/corge/:qux(/)(/:fred/:waldo+(/)))'))
+            ->setName('foobar')
             ->defaults([
                 'bar' => 'apple',
                 'qux' => 'cucumber',

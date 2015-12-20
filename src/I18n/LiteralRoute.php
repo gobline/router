@@ -22,9 +22,9 @@ class LiteralRoute extends AbstractRoute
 {
     protected $translations;
 
-    public function __construct($name, $path, callable $handler = null, array $translations)
+    public function __construct($path, callable $handler = null, array $translations)
     {
-        parent::__construct($name, $path, $handler);
+        parent::__construct($path, $handler);
 
         $this->translations = new RouteTranslations($translations);
     }

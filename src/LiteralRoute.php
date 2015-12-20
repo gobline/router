@@ -34,7 +34,9 @@ class LiteralRoute extends AbstractRoute
 
     public function i18n(array $translations)
     {
-        return (new I18n\LiteralRoute($this->name, $this->path, $this->handler, $translations))
-            ->values($this->values);
+        return (new I18n\LiteralRoute($this->path, $this->handler, $translations))
+            ->setName($this->name)
+            ->values($this->values)
+            ->allows($this->allowedRequestMethods);
     }
 }

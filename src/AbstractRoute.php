@@ -22,19 +22,21 @@ abstract class AbstractRoute implements RouteInterface
     protected $values = [];
     protected $allowedRequestMethods = [];
 
-    public function __construct($name, $path, callable $handler = null)
+    public function __construct($path, callable $handler = null)
     {
-        $this->name = (string) $name;
-        if ($this->name === '') {
-            throw new \InvalidArgumentException('$name cannot be empty');
-        }
-
         $this->path = (string) $path;
         if ($this->path === '') {
             throw new \InvalidArgumentException('$path cannot be empty');
         }
 
         $this->handler = $handler;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     public function getName()

@@ -12,13 +12,15 @@ class RequestMatcherTest extends PHPUnit_Framework_TestCase
         $routeCollection = new RouteCollection();
 
         $routeCollection
-            ->get(new PlaceholderRoute('profileUsername', '/profile/:username'))
+            ->get(new PlaceholderRoute('/profile/:username'))
+            ->setName('profileUsername')
             ->constraints([
                 'username' => '[a-zA-Z]+',
             ]);
 
         $routeCollection
-            ->addRoute(new PlaceholderRoute('profileUserId', '/profile/:id'))
+            ->addRoute(new PlaceholderRoute('/profile/:id'))
+            ->setName('profileUserId')
             ->constraints([
                 'id' => '[0-9]+',
             ])

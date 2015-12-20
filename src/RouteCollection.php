@@ -42,27 +42,9 @@ class RouteCollection implements IteratorAggregate
 
     public function addRoute(RouteInterface $route)
     {
-        $this->routes = [$route->getName() => $route] + $this->routes;
+        array_unshift($this->routes, $route);
 
         return $route;
-    }
-
-    public function hasRoute($name)
-    {
-        if ((string) $name === '') {
-            throw new \InvalidArgumentException('$name cannot be empty');
-        }
-
-        return isset($this->routes[$name]);
-    }
-
-    public function getRoute($name)
-    {
-        if (!$this->hasRoute($name)) {
-            throw new \Exception('route "'.$name.'" not found');
-        }
-
-        return $this->routes[$name];
     }
 
     public function getIterator()

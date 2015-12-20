@@ -20,20 +20,29 @@ class PlaceholderRouteFactory
 {
     public function __invoke(array $data)
     {
-        $name = $data['name'];
         $path = $data['path'];
+        $name = !empty($data['name']) ? $data['name'] : null;
+        $i18n = !empty($data['i18n']) ? $data['i18n'] : null;
         $values = !empty($data['values']) ? $data['values'] : [];
         $allows = !empty($data['allows']) ? $data['allows'] : [];
         $allows = is_array($allows) ? $allows : [$allows];
         $defaults = !empty($data['defaults']) ? $data['defaults'] : [];
         $constraints = !empty($data['constraints']) ? $data['constraints'] : [];
 
-        $route = new PlaceholderRoute($name, $path);
+        $route = new PlaceholderRoute($path);
+
+        if ($name) {
+            $route->setName($name);
+        }
 
         $route->values($values)
               ->allows($allows)
               ->defaults($defaults)
               ->constraints($constraints);
+
+        if ($i18n) {
+            $route = $route->i18n($i18n);
+        }
 
         return $route;
     }

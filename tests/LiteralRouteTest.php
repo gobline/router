@@ -9,7 +9,8 @@ class LiteralRouteTest extends PHPUnit_Framework_TestCase
 {
     public function testLiteralRouteMatch()
     {
-        $route = (new LiteralRoute('edit-profile', '/profile/edit'))
+        $route = (new LiteralRoute('/profile/edit'))
+            ->setName('edit-profile')
             ->controller('profile')
             ->action('edit');
 
@@ -23,7 +24,8 @@ class LiteralRouteTest extends PHPUnit_Framework_TestCase
 
     public function testLiteralRouteNoMatch()
     {
-        $route = (new LiteralRoute('edit-profile', '/profile/edit'))
+        $route = (new LiteralRoute('/profile/edit'))
+            ->setName('edit-profile')
             ->controller('profile')
             ->action('edit');
 
@@ -34,7 +36,8 @@ class LiteralRouteTest extends PHPUnit_Framework_TestCase
 
     public function testLiteralI18nRouterMatch()
     {
-        $route = (new LiteralRoute('edit-profile', '/profile/edit'))
+        $route = (new LiteralRoute('/profile/edit'))
+            ->setName('edit-profile')
             ->controller('profile')
             ->action('edit')
             ->i18n([
@@ -55,7 +58,8 @@ class LiteralRouteTest extends PHPUnit_Framework_TestCase
 
     public function testLiteralI18nRouterNoMatch()
     {
-        $route = (new LiteralRoute('edit-profile', '/profile/edit'))
+        $route = (new LiteralRoute('/profile/edit'))
+            ->setName('edit-profile')
             ->controller('profile')
             ->action('edit')
             ->i18n([

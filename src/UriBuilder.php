@@ -16,16 +16,28 @@ namespace Gobline\Router;
  */
 class UriBuilder implements UriBuilderInterface
 {
-    private $routes;
+    private $routes = [];
 
     public function __construct(RouteCollection $routes)
     {
-        $this->routes = $routes;
+        foreach ($routes as $route) {
+            if (!$route->getName()) {
+                continue;
+            }
+
+            $this->routes[$route->getName()] = $route;
+        }
     }
 
     public function buildUri(RouteData $routeData, $language = null)
     {
-        $path = $this->routes->getRoute($routeData->getName())->buildUri($routeData, $language);
+        $name = $routeData->getName();
+
+        if (!isset($this->routes[$name])) {
+            throw new \Exception('route "'.$name.'" not found');
+        }
+
+        $path = $this->routes[$name]->buildUri($routeData, $language);
 
         return $path;
     }

@@ -40,9 +40,11 @@ class PlaceholderRoute extends AbstractPlaceholderRoute
 
     public function i18n(array $translations)
     {
-        return (new I18n\PlaceholderRoute($this->name, $this->path, $this->handler, $translations))
+        return (new I18n\PlaceholderRoute($this->path, $this->handler, $translations))
+            ->setName($this->name)
             ->values($this->values)
             ->defaults($this->defaults)
-            ->constraints($this->constraints);
+            ->constraints($this->constraints)
+            ->allows($this->allowedRequestMethods);
     }
 }
